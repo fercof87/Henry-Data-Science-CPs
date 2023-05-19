@@ -154,13 +154,12 @@ def Ret_Pregunta10(lista):
     #Tu código aca:
     
     cantidad = 0
-    nodo = lista.getCabecera()
 
     if(lista.getCabecera()):
-            cantidad += 1     
+        cantidad = 1
+        nodo = lista.getCabecera()
+        while(nodo.getSiguiente()):
+            cantidad += 1
+            nodo = nodo.getSiguiente()
     
-    while(nodo.getSiguiente()):
-        nodo = nodo.getSiguiente()
-        cantidad +=1
-
     return cantidad

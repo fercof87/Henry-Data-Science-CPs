@@ -20,7 +20,7 @@ def Ret_Pregunta01():
     consumo = pd.read_csv("datasets\Fuentes_Consumo_Energia.csv", sep=",")
     
     return (consumo[consumo["Entity"] == "Colombia"].shape[0], consumo[consumo["Entity"] == "Mexico"].shape[0])
-
+    
 
 def Ret_Pregunta02():
     '''
@@ -89,8 +89,7 @@ def Ret_Pregunta05():
     # Tu código aca:
     consumo = pd.read_csv("datasets\Fuentes_Consumo_Energia.csv", sep=",")
 
-    europa = consumo[consumo.Entity=="Europe"]
-    europa["Hydro_Generation_TWh"].idxmax()
+    europa = consumo[consumo.Entity == "Europe"]
     return europa.loc[europa["Hydro_Generation_TWh"].idxmax()]["Year"]
 
 
