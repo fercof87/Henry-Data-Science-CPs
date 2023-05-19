@@ -4,6 +4,7 @@ from xml.dom.minidom import Entity
 import pandas as pd
 import numpy as np
 
+
 def Ret_Pregunta01():
     '''
     Debes utilizar Pandas para ingestar en un objeto Dataframe el contenido del archivo provisto 
@@ -12,9 +13,9 @@ def Ret_Pregunta01():
     devolver la suma de los valores de esta, con 4 decimales después de la coma, redondeado.
     '''
     #Tu código aca: 
-    df = pd.read_csv("datasets\GGAL - Cotizaciones historicas.csv")
-    return df["maximo"].sum().round(4)
-    # #return 'Funcion incompleta'
+    cotizaciones = pd.read_csv("datasets\GGAL - Cotizaciones historicas.csv")
+    return cotizaciones.maximo.sum().round(4)
+
 
 def Ret_Pregunta02(precio_min, precio_max):
     '''
@@ -29,10 +30,9 @@ def Ret_Pregunta02(precio_min, precio_max):
      sobre la columna "cierre"
     '''
     #Tu código aca:
-    df=pd.read_csv("datasets\GGAL - Cotizaciones historicas.csv")
-    (precio_max+precio_min)/2
+    cotizaciones = pd.read_csv("datasets\GGAL - Cotizaciones historicas.csv")
+    return cotizaciones[np.logical_and(cotizaciones.apertura > precio_min, cotizaciones.apertura < precio_max)].cierre.mean().round(2)
 
-    #return 'Funcion incompleta'
 
 def Ret_Pregunta03():
     '''
@@ -43,10 +43,9 @@ def Ret_Pregunta03():
     retornando ese valor en un dato de tipo entero.
     '''
     #Tu código aca:
-    df=pd.read_csv("datasets\Fuentes_Consumo_Energia.csv")
-    return df["Year"].nunique()
+    consumo = pd.read_csv("datasets\Fuentes_Consumo_Energia.csv")
+    return consumo.Year.dropna().nunique()
 
-    #return 'Funcion incompleta'
 
 def Ret_Pregunta04():
     '''
@@ -55,9 +54,9 @@ def Ret_Pregunta04():
     Esta función debe informar la cantidad de registros retornando ese valor en un dato de tipo entero.
     '''
     #Tu código aca:
-    df=pd.read_csv("datasets\Fuentes_Consumo_Energia.csv")
-    return len(df)
-    #return 'Funcion incompleta'
+    consumo = pd.read_csv("datasets\Fuentes_Consumo_Energia.csv")
+    return consumo.shape[0]
+
 
 def Ret_Pregunta05():
     '''
@@ -68,10 +67,10 @@ def Ret_Pregunta05():
     columna "variacion". 
     '''
     #Tu código aca:  
-    df=pd.read_csv("datasets\GGAL - Cotizaciones historicas.csv")
-    df["variacion"]=df["maximo"]-df["maximo"][0]
-    return round(max(df["variacion"]),1)
-    #return 'Funcion incompleta'
+    cotizaciones = pd.read_csv("datasets\GGAL - Cotizaciones historicas.csv")
+
+    cotizaciones["variacion"] = cotizaciones.maximo - cotizaciones.maximo[0]
+    return cotizaciones.variacion.max().round(1)
 
 def Ret_Pregunta06(m1, m2, m3):
     '''
@@ -89,7 +88,8 @@ def Ret_Pregunta06(m1, m2, m3):
     '''
     #Tu código aca:
 
-    #return 'Funcion incompleta'
+    return np.logical_and(m1.shape[1] == m2.shape[0], m2.shape[1] == m3.shape[0])
+
 
 def Ret_Pregunta07():
     '''
@@ -107,7 +107,10 @@ def Ret_Pregunta07():
     Debe retornar el valor en un dato de tipo string.
     '''
     #Tu código aca:
+    consumo = pd.read_csv("datasets\Fuentes_Consumo_Energia.csv")
+    lista = ["Argentina", "Germany", "Chile", "Colombia", "Ecuador", "Mexico", "Peru"]
 
+    return consumo.Entity[consumo[consumo.Entity.isin(lista)].Hydro_Generation_TWh.idxmax()]
     
 
 def Ret_Pregunta08():
@@ -120,7 +123,9 @@ def Ret_Pregunta08():
     del punto y redondear de ser necesario.
     '''
     #Tu código aca:
-   
+    cotizaciones = pd.read_csv("datasets\GGAL - Cotizaciones historicas.csv")
+    return (cotizaciones.tail(100).apertura.mean().round(2),cotizaciones.tail(100).cierre.mean().round(2))
+
 
 def Ret_Pregunta09():
     '''
@@ -130,8 +135,8 @@ def Ret_Pregunta09():
     Use dos decimales después del punto.
     '''
     #Tu código aca:
-
-
+    consumo = pd.read_csv("datasets\Fuentes_Consumo_Energia.csv")
+    return consumo.groupby("Entity")["Nuclear_Generation_TWh"].sum().max().round(2)
 
 def Ret_Pregunta10(lista):
     '''
@@ -147,3 +152,15 @@ def Ret_Pregunta10(lista):
             3    -> Debe ser el valor devuelto por la función Ret_Pregunta10() en este ejemplo
     '''
     #Tu código aca:
+    
+    cantidad = 0
+    nodo = lista.getCabecera()
+
+    if(lista.getCabecera()):
+            cantidad += 1     
+    
+    while(nodo.getSiguiente()):
+        nodo = nodo.getSiguiente()
+        cantidad +=1
+
+    return cantidad
